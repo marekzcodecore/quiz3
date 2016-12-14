@@ -1,0 +1,10 @@
+
+<h2> <% @user.ideas %> ideas  </h2>
+
+<% @user.ideas.each do |i| %>
+  <hr>
+  <%= i.title %>
+  <br>
+  <%= i.body%>
+
+<% end %>

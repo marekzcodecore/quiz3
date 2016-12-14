@@ -1,0 +1,8 @@
+<h1>All Ideas</h1>
+
+<% @ideas.each do |i| %>
+  <%= link_to i.title, idea_path(i) %>
+  (<%= pluralize i.likes.count, "like" %>),
+  (<%= pluralize i.members.count, "member" %>)
+  <hr>
+<% end %>

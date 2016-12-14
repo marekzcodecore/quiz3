@@ -1,0 +1,57 @@
+<h1><%= @idea.title %></h1>
+
+<p><%= @idea.body %></p>
+
+<p>
+  Created By: <%= link_to @idea.user.first_name, user_path( @idea.user_id) %>
+</p>
+
+<%# if can? :manage, @question %>
+  <%#= link_to 'edit', edit_question_path(@question) %>
+
+  <%#= link_to 'delete', question_path(@question),
+                        method: :delete,
+                        data: { confirm: 'Are you sure?' } %>
+<%# end %>
+
+<% if user_signed_in? && can?(:like, @idea) %>
+  <% if @like.present?  %>
+    <%= link_to "Un-Like", like_path(@like), method: :delete %>
+  <% else %>
+    <%= link_to "Like", idea_likes_path(@idea), method: :post %>
+  <% end %>
+<% end %>
+(<%= pluralize @idea.likes.count, "like" %>)
+<br>
+
+<% if user_signed_in? && can?(:member, @idea) %>
+  <% if @member.present?  %>
+    <%= link_to "quit membership of idea", member_path(@member), method: :delete %>
+  <% else %>
+    <%= link_to "join as member", idea_members_path(@idea), method: :post %>
+  <% end %>
+<% end %>
+
+    <section class="member-widget">
+      Members: <%= @idea.members.map{|m| m.user.first_name}.join(', ') %>
+    </section>
+
+
+  <div id='comment-form'>
+    <%= render '/comments/form' %>
+  </div>
+
+  <div id='comments'>
+    <% @idea.comments.each do |comment| %>
+
+      <%= render('/comments/comment', { comment: comment }) %>
+    <% end %>
+  </div>
+
+<!--section class="vote-widget">
+
+  <%#= upvote_link @idea %>
+  <%#= downvote_link @idea %>
+  <%#= @idea.like_value %>
+
+</section-->
